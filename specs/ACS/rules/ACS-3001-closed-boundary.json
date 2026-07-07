@@ -1,0 +1,11 @@
+{
+  "id": "ACS-3001",
+  "title": "Closed Boundary Polyline",
+  "status": "draft",
+  "severity": "ERROR",
+  "target": "Boundary",
+  "condition": "closed == true",
+  "message": "Boundary geometry must be closed.",
+  "can_fix": true,
+  "fix_method": "close_if_gap_less_than_tolerance"
+}

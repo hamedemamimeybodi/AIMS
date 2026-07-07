@@ -1,0 +1,4 @@
+name: Cadastre
+version: 0.1
+rules:
+  - ACS-3001
