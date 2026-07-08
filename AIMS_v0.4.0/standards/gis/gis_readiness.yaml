@@ -1,0 +1,18 @@
+gis:
+  target_formats:
+    - GeoJSON
+    - SQLite
+    - GeoPackage
+  required_geometry:
+    Wall: polyline
+    Room: polygon
+    Column: polygon
+  required_properties:
+    - level
+    - category
+    - layer
+  topology_checks:
+    open_boundaries: true
+    duplicate_geometry: true
+    zero_area_polygons: true
+    bbox_overlap_warning: true

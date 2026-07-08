@@ -1,0 +1,46 @@
+layers:
+  A-WALL:
+    category: Wall
+    bim_class: IfcWall
+  A-WALL-EXT:
+    category: Wall
+    bim_class: IfcWall
+  A-WALL-INT:
+    category: Wall
+    bim_class: IfcWall
+  A-DOOR:
+    category: Door
+    bim_class: IfcDoor
+  A-WINDOW:
+    category: Window
+    bim_class: IfcWindow
+  A-COLUMN:
+    category: Column
+    bim_class: IfcColumn
+  A-ROOM:
+    category: Room
+    bim_class: IfcSpace
+  A-TEXT:
+    category: Text
+  A-DIM:
+    category: Annotation
+  A-HATCH:
+    category: Annotation
+  A-GRID:
+    category: Annotation
+blocks:
+  DOOR_SINGLE:
+    category: Door
+    bim_class: IfcDoor
+  WINDOW_FIXED:
+    category: Window
+    bim_class: IfcWindow
+  COLUMN_RECT:
+    category: Column
+    bim_class: IfcColumn
+text_styles:
+  STANDARD:
+    font: Arial
+rules:
+  min_room_area: 0.5
+  prefer_doors_windows_as_blocks: true

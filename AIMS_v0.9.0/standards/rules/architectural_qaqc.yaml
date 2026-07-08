@@ -1,0 +1,77 @@
+rule_sets:
+  architectural_qaqc:
+    description: Entity-level architectural QA/QC rules for AIMS v0.5.0.
+    rules:
+      - id: WALL_REQUIRES_CLOSED_OR_LENGTH
+        selector:
+          category: Wall
+        severity: warning
+        message: Wall geometry should be valid and have measurable length.
+        conditions:
+          - op: min_length
+            value: 0.01
+
+      - id: ROOM_REQUIRES_CLOSED_BOUNDARY
+        selector:
+          category: Room
+        severity: error
+        message: Room boundaries must be closed for BIM/GIS readiness.
+        conditions:
+          - op: closed_geometry
+
+      - id: ROOM_REQUIRES_MIN_AREA
+        selector:
+          category: Room
+        severity: warning
+        message: Room area is below the configured minimum area.
+        conditions:
+          - op: min_area
+            value: 0.5
+
+      - id: DOOR_MUST_BE_BLOCK
+        selector:
+          category: Door
+        severity: warning
+        message: Doors should be represented as standard block inserts.
+        conditions:
+          - op: equals
+            field: entity_type
+            value: INSERT
+
+      - id: WINDOW_MUST_BE_BLOCK
+        selector:
+          category: Window
+        severity: warning
+        message: Windows should be represented as standard block inserts.
+        conditions:
+          - op: equals
+            field: entity_type
+            value: INSERT
+
+      - id: BIM_RELEVANT_REQUIRES_LEVEL
+        selector:
+          category:
+            - Wall
+            - Door
+            - Window
+            - Column
+            - Room
+        severity: warning
+        message: BIM-relevant architectural entities should have a level property.
+        conditions:
+          - op: not_empty
+            field: level
+
+      - id: BIM_RELEVANT_REQUIRES_IFC_CLASS
+        selector:
+          category:
+            - Wall
+            - Door
+            - Window
+            - Column
+            - Room
+        severity: warning
+        message: BIM-relevant architectural entities should be mapped to an IFC class.
+        conditions:
+          - op: exists
+            field: bim_class

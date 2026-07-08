@@ -1,0 +1,9 @@
+plugins:
+  - name: architecture.basic
+    path: plugins.architecture.basic_arch_plugin.BasicArchitecturePlugin
+    enabled: true
+    min_room_area: 1.0
+    door_layers:
+      - A-DOOR
+    window_layers:
+      - A-WINDOW

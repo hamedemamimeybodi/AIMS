@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>AIMS QA/QC Report</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 32px; color: #222; }
+    h1, h2 { margin-bottom: 8px; }
+    .meta { color: #555; margin-bottom: 24px; }
+    .scores { display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0; }
+    .score { border: 1px solid #ddd; border-radius: 10px; padding: 12px 16px; min-width: 150px; }
+    .score span { display: block; font-size: 12px; color: #555; }
+    .score strong { font-size: 28px; }
+    .excellent { border-left: 6px solid #238636; }
+    .good { border-left: 6px solid #2f81f7; }
+    .warning { border-left: 6px solid #d29922; }
+    .critical { border-left: 6px solid #da3633; }
+    table { border-collapse: collapse; width: 100%; margin: 12px 0 24px; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background: #f3f4f6; }
+    code { background: #f3f4f6; padding: 2px 4px; border-radius: 4px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+  </style>
+</head>
+<body>
+  <h1>AIMS Architectural BIM QA/QC Report</h1>
+  <div class="meta">
+    <div><strong>Source:</strong> <code>examples/simple_site.dxf</code></div>
+    <div><strong>Units:</strong> <code>fallback</code></div>
+    <div><strong>Total entities:</strong> 5</div>
+    <div><strong>Total issues:</strong> 28</div>
+  </div>
+
+  <div class="scores">
+    <div class="score warning"><span>Overall</span><strong>58</strong></div>
+    <div class="score critical"><span>Architecture</span><strong>47</strong></div>
+    <div class="score critical"><span>BIM</span><strong>31</strong></div>
+    <div class="score warning"><span>GIS</span><strong>73</strong></div>
+    <div class="score excellent"><span>Rules</span><strong>100</strong></div>
+    <div class="score excellent"><span>Plugins</span><strong>100</strong></div>
+    <div class="score critical"><span>OpenBIM</span><strong>0</strong></div>
+  </div>
+
+  <div class="grid">
+    <section><h2>Category Summary</h2><table><tr><th>Name</th><th>Count</th></tr><tr><td>Door</td><td>1</td></tr>
+<tr><td>Room</td><td>1</td></tr>
+<tr><td>Text</td><td>1</td></tr>
+<tr><td>Unknown</td><td>1</td></tr>
+<tr><td>Wall</td><td>1</td></tr></table></section>
+    <section><h2>Layer Summary</h2><table><tr><th>Name</th><th>Count</th></tr><tr><td>A-DOOR</td><td>1</td></tr>
+<tr><td>A-ROOM</td><td>1</td></tr>
+<tr><td>A-TEXT</td><td>1</td></tr>
+<tr><td>A-WALL</td><td>1</td></tr>
+<tr><td>BAD-LAYER</td><td>1</td></tr></table></section>
+    <section><h2>Issue Severity Summary</h2><table><tr><th>Name</th><th>Count</th></tr><tr><td>error</td><td>1</td></tr>
+<tr><td>info</td><td>6</td></tr>
+<tr><td>warning</td><td>21</td></tr></table></section>
+    <section><h2>Issue Code Summary</h2><table><tr><th>Name</th><th>Count</th></tr><tr><td>BIM_MISSING_LEVEL</td><td>3</td></tr>
+<tr><td>BIM_MISSING_MATERIAL</td><td>2</td></tr>
+<tr><td>BIM_MISSING_REQUIRED_PROPERTY</td><td>3</td></tr>
+<tr><td>BIM_UNMAPPED_ENTITY</td><td>1</td></tr>
+<tr><td>GIS_BBOX_OVERLAP</td><td>2</td></tr>
+<tr><td>NON_STANDARD_BLOCK</td><td>1</td></tr>
+<tr><td>OPENBIM_GUID_ASSIGNED</td><td>4</td></tr>
+<tr><td>OPENBIM_MISSING_PSET_PROPERTY</td><td>5</td></tr>
+<tr><td>OPENBIM_MISSING_SPATIAL_CONTAINER</td><td>4</td></tr>
+<tr><td>UNKNOWN_CATEGORY</td><td>1</td></tr>
+<tr><td>UNKNOWN_LAYER</td><td>1</td></tr>
+<tr><td>ZERO_LENGTH</td><td>1</td></tr></table></section>
+  </div>
+
+  <h2>Readiness Metrics</h2>
+  <table>
+    <tr><th>Area</th><th>Score</th><th>Key details</th></tr>
+    <tr><td>BIM</td><td>31</td><td>Mapped 4 of 3 BIM-relevant entities</td></tr>
+    <tr><td>GIS</td><td>73</td><td>4 exportable GeoJSON features</td></tr>
+    <tr><td>Rules</td><td>100</td><td>0 failed checks</td></tr>
+    <tr><td>Plugins</td><td>100</td><td>1 executed plugins, 0 plugin issues</td></tr>
+    <tr><td>OpenBIM</td><td>0</td><td>4 export-ready entities, 5 missing PSet values</td></tr>
+  </table>
+
+  <h2>Entity Issues</h2>
+  <table>
+    <tr><th>Entity ID</th><th>Type</th><th>Layer</th><th>Category</th><th>Severity</th><th>Code</th><th>Message</th></tr>
+    <tr><td><code>00cf6974-e66d-4bad-92df-f7911731ffca</code></td><td>LWPOLYLINE</td><td>A-WALL</td><td>Wall</td><td>warning</td><td>BIM_MISSING_LEVEL</td><td>BIM element has no assigned level.</td></tr><tr><td><code>00cf6974-e66d-4bad-92df-f7911731ffca</code></td><td>LWPOLYLINE</td><td>A-WALL</td><td>Wall</td><td>info</td><td>BIM_MISSING_MATERIAL</td><td>BIM element has no assigned material.</td></tr><tr><td><code>00cf6974-e66d-4bad-92df-f7911731ffca</code></td><td>LWPOLYLINE</td><td>A-WALL</td><td>Wall</td><td>warning</td><td>BIM_MISSING_REQUIRED_PROPERTY</td><td>Missing required BIM property: level</td></tr><tr><td><code>00cf6974-e66d-4bad-92df-f7911731ffca</code></td><td>LWPOLYLINE</td><td>A-WALL</td><td>Wall</td><td>warning</td><td>GIS_BBOX_OVERLAP</td><td>Polygon bounding box overlaps another polygon. Review exact topology in GIS.</td></tr><tr><td><code>00cf6974-e66d-4bad-92df-f7911731ffca</code></td><td>LWPOLYLINE</td><td>A-WALL</td><td>Wall</td><td>info</td><td>OPENBIM_GUID_ASSIGNED</td><td>IFC GUID was missing; ADF entity id was used as fallback.</td></tr><tr><td><code>00cf6974-e66d-4bad-92df-f7911731ffca</code></td><td>LWPOLYLINE</td><td>A-WALL</td><td>Wall</td><td>warning</td><td>OPENBIM_MISSING_SPATIAL_CONTAINER</td><td>OpenBIM entity has no spatial container or level assignment.</td></tr><tr><td><code>00cf6974-e66d-4bad-92df-f7911731ffca</code></td><td>LWPOLYLINE</td><td>A-WALL</td><td>Wall</td><td>warning</td><td>OPENBIM_MISSING_PSET_PROPERTY</td><td>Missing OpenBIM property set value: level</td></tr><tr><td><code>00cf6974-e66d-4bad-92df-f7911731ffca</code></td><td>LWPOLYLINE</td><td>A-WALL</td><td>Wall</td><td>warning</td><td>OPENBIM_MISSING_PSET_PROPERTY</td><td>Missing OpenBIM property set value: material</td></tr><tr><td><code>f04eeb44-ef01-44d7-a2fc-d3ab1e70f54a</code></td><td>LWPOLYLINE</td><td>A-ROOM</td><td>Room</td><td>warning</td><td>BIM_MISSING_LEVEL</td><td>BIM element has no assigned level.</td></tr><tr><td><code>f04eeb44-ef01-44d7-a2fc-d3ab1e70f54a</code></td><td>LWPOLYLINE</td><td>A-ROOM</td><td>Room</td><td>warning</td><td>BIM_MISSING_REQUIRED_PROPERTY</td><td>Missing required BIM property: level</td></tr><tr><td><code>f04eeb44-ef01-44d7-a2fc-d3ab1e70f54a</code></td><td>LWPOLYLINE</td><td>A-ROOM</td><td>Room</td><td>warning</td><td>GIS_BBOX_OVERLAP</td><td>Polygon bounding box overlaps another polygon. Review exact topology in GIS.</td></tr><tr><td><code>f04eeb44-ef01-44d7-a2fc-d3ab1e70f54a</code></td><td>LWPOLYLINE</td><td>A-ROOM</td><td>Room</td><td>info</td><td>OPENBIM_GUID_ASSIGNED</td><td>IFC GUID was missing; ADF entity id was used as fallback.</td></tr><tr><td><code>f04eeb44-ef01-44d7-a2fc-d3ab1e70f54a</code></td><td>LWPOLYLINE</td><td>A-ROOM</td><td>Room</td><td>warning</td><td>OPENBIM_MISSING_SPATIAL_CONTAINER</td><td>OpenBIM entity has no spatial container or level assignment.</td></tr><tr><td><code>f04eeb44-ef01-44d7-a2fc-d3ab1e70f54a</code></td><td>LWPOLYLINE</td><td>A-ROOM</td><td>Room</td><td>warning</td><td>OPENBIM_MISSING_PSET_PROPERTY</td><td>Missing OpenBIM property set value: level</td></tr><tr><td><code>473b6ea9-f366-4168-b3ad-69726c38f64f</code></td><td>INSERT</td><td>A-DOOR</td><td>Door</td><td>warning</td><td>NON_STANDARD_BLOCK</td><td>Block &#x27;DOOR_900&#x27; is not defined in the active standard.</td></tr><tr><td><code>473b6ea9-f366-4168-b3ad-69726c38f64f</code></td><td>INSERT</td><td>A-DOOR</td><td>Door</td><td>warning</td><td>BIM_MISSING_LEVEL</td><td>BIM element has no assigned level.</td></tr><tr><td><code>473b6ea9-f366-4168-b3ad-69726c38f64f</code></td><td>INSERT</td><td>A-DOOR</td><td>Door</td><td>info</td><td>BIM_MISSING_MATERIAL</td><td>BIM element has no assigned material.</td></tr><tr><td><code>473b6ea9-f366-4168-b3ad-69726c38f64f</code></td><td>INSERT</td><td>A-DOOR</td><td>Door</td><td>warning</td><td>BIM_MISSING_REQUIRED_PROPERTY</td><td>Missing required BIM property: level</td></tr><tr><td><code>473b6ea9-f366-4168-b3ad-69726c38f64f</code></td><td>INSERT</td><td>A-DOOR</td><td>Door</td><td>info</td><td>OPENBIM_GUID_ASSIGNED</td><td>IFC GUID was missing; ADF entity id was used as fallback.</td></tr><tr><td><code>473b6ea9-f366-4168-b3ad-69726c38f64f</code></td><td>INSERT</td><td>A-DOOR</td><td>Door</td><td>warning</td><td>OPENBIM_MISSING_SPATIAL_CONTAINER</td><td>OpenBIM entity has no spatial container or level assignment.</td></tr><tr><td><code>473b6ea9-f366-4168-b3ad-69726c38f64f</code></td><td>INSERT</td><td>A-DOOR</td><td>Door</td><td>warning</td><td>OPENBIM_MISSING_PSET_PROPERTY</td><td>Missing OpenBIM property set value: level</td></tr><tr><td><code>473b6ea9-f366-4168-b3ad-69726c38f64f</code></td><td>INSERT</td><td>A-DOOR</td><td>Door</td><td>warning</td><td>OPENBIM_MISSING_PSET_PROPERTY</td><td>Missing OpenBIM property set value: material</td></tr><tr><td><code>0d4ca13a-154e-4a7a-a82d-a7e52394ce15</code></td><td>TEXT</td><td>A-TEXT</td><td>Text</td><td>info</td><td>OPENBIM_GUID_ASSIGNED</td><td>IFC GUID was missing; ADF entity id was used as fallback.</td></tr><tr><td><code>0d4ca13a-154e-4a7a-a82d-a7e52394ce15</code></td><td>TEXT</td><td>A-TEXT</td><td>Text</td><td>warning</td><td>OPENBIM_MISSING_SPATIAL_CONTAINER</td><td>OpenBIM entity has no spatial container or level assignment.</td></tr><tr><td><code>e603cd90-2fd6-48d9-818e-20b6cf6bdabe</code></td><td>LINE</td><td>BAD-LAYER</td><td>Unknown</td><td>warning</td><td>UNKNOWN_LAYER</td><td>Layer &#x27;BAD-LAYER&#x27; is not defined in the active standard.</td></tr><tr><td><code>e603cd90-2fd6-48d9-818e-20b6cf6bdabe</code></td><td>LINE</td><td>BAD-LAYER</td><td>Unknown</td><td>warning</td><td>UNKNOWN_CATEGORY</td><td>Entity could not be classified into an architectural/BIM category.</td></tr><tr><td><code>e603cd90-2fd6-48d9-818e-20b6cf6bdabe</code></td><td>LINE</td><td>BAD-LAYER</td><td>Unknown</td><td>error</td><td>ZERO_LENGTH</td><td>Geometry length is zero or almost zero.</td></tr><tr><td><code>e603cd90-2fd6-48d9-818e-20b6cf6bdabe</code></td><td>LINE</td><td>BAD-LAYER</td><td>Unknown</td><td>warning</td><td>BIM_UNMAPPED_ENTITY</td><td>Entity could not be mapped to a BIM/IFC class.</td></tr>
+  </table>
+</body>
+</html>

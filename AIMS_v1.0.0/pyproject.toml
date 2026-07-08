@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aims"
+version = "1.0.0"
+description = "AIMS Professional CAD/BIM/GIS QA/QC release candidate"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{ name = "hamedemamimeybodi" }]
+dependencies = [
+  "ezdxf>=1.3.0",
+  "pydantic>=2.7.0",
+  "pyyaml>=6.0.1",
+  "rich>=13.7.0"
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0.0"
+]
+
+[project.scripts]
+aims = "aims.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["aims*", "packages*"]

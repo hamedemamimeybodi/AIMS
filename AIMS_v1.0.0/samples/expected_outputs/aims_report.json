@@ -1,0 +1,456 @@
+{
+  "source_file": "examples/simple_site.dxf",
+  "units": "fallback",
+  "total_entities": 5,
+  "total_issues": 28,
+  "scorecard": {
+    "architectural_quality": 47,
+    "bim_readiness": 31,
+    "gis_readiness": 73,
+    "rule_engine": 100,
+    "plugin_system": 100,
+    "openbim_readiness": 0,
+    "overall": 58
+  },
+  "category_counts": {
+    "Wall": 1,
+    "Room": 1,
+    "Door": 1,
+    "Text": 1,
+    "Unknown": 1
+  },
+  "layer_counts": {
+    "A-WALL": 1,
+    "A-ROOM": 1,
+    "A-DOOR": 1,
+    "A-TEXT": 1,
+    "BAD-LAYER": 1
+  },
+  "severity_counts": {
+    "warning": 21,
+    "info": 6,
+    "error": 1
+  },
+  "issue_counts": {
+    "BIM_MISSING_LEVEL": 3,
+    "BIM_MISSING_MATERIAL": 2,
+    "BIM_MISSING_REQUIRED_PROPERTY": 3,
+    "GIS_BBOX_OVERLAP": 2,
+    "OPENBIM_GUID_ASSIGNED": 4,
+    "OPENBIM_MISSING_SPATIAL_CONTAINER": 4,
+    "OPENBIM_MISSING_PSET_PROPERTY": 5,
+    "NON_STANDARD_BLOCK": 1,
+    "UNKNOWN_LAYER": 1,
+    "UNKNOWN_CATEGORY": 1,
+    "ZERO_LENGTH": 1,
+    "BIM_UNMAPPED_ENTITY": 1
+  },
+  "bim": {
+    "score": 31,
+    "total_entities": 5,
+    "bim_entities": 3,
+    "mapped_entities": 4,
+    "missing_level": 3,
+    "missing_material": 2,
+    "missing_required_properties": 5,
+    "ifc_class_counts": {
+      "IfcWall": 1,
+      "IfcSpace": 1,
+      "IfcDoor": 1,
+      "IfcAnnotation": 1
+    }
+  },
+  "gis": {
+    "score": 73,
+    "total_entities": 5,
+    "geospatial_entities": 4,
+    "exportable_features": 4,
+    "missing_geometry": 0,
+    "unknown_category": 1,
+    "missing_level": 0,
+    "geometry_type_counts": {
+      "polyline": 2,
+      "block_insert": 1,
+      "point": 1,
+      "line": 1
+    },
+    "topology": {
+      "polygon_count": 2,
+      "open_boundary_count": 0,
+      "zero_area_polygon_count": 0,
+      "duplicate_geometry_count": 0,
+      "overlap_pair_count": 1
+    }
+  },
+  "rules": {
+    "score": 100,
+    "total_rules": 7,
+    "evaluated_entities": 5,
+    "passed": 10,
+    "failed": 0,
+    "skipped": 25,
+    "failure_counts": {}
+  },
+  "plugins": {
+    "score": 100,
+    "enabled_plugins": 1,
+    "executed_plugins": 1,
+    "failed_plugins": 0,
+    "total_issues": 0,
+    "results": [
+      {
+        "plugin_name": "architecture.basic",
+        "version": "0.6.0",
+        "status": "passed",
+        "checked_entities": 3,
+        "issues": []
+      }
+    ]
+  },
+  "openbim": {
+    "score": 0,
+    "total_entities": 5,
+    "openbim_entities": 4,
+    "missing_ifc_guid": 4,
+    "missing_spatial_container": 4,
+    "missing_pset_properties": 5,
+    "unsupported_ifc_classes": 0,
+    "ifc_class_counts": {
+      "IfcWall": 1,
+      "IfcSpace": 1,
+      "IfcDoor": 1,
+      "IfcAnnotation": 1
+    }
+  },
+  "entities": [
+    {
+      "id": "00cf6974-e66d-4bad-92df-f7911731ffca",
+      "source": "DXF",
+      "handle": "100",
+      "entity_type": "LWPOLYLINE",
+      "layer": "A-WALL",
+      "category": "Wall",
+      "bim_class": "IfcWall",
+      "geometry": {
+        "type": "polyline",
+        "points": [
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            10000.0,
+            0.0,
+            0.0
+          ],
+          [
+            10000.0,
+            8000.0,
+            0.0
+          ],
+          [
+            0.0,
+            8000.0,
+            0.0
+          ]
+        ],
+        "closed": true,
+        "raw": {}
+      },
+      "text": null,
+      "properties": {
+        "bim_category": "Wall",
+        "ifc_class": "IfcWall",
+        "level": "UNASSIGNED",
+        "material": null,
+        "ifc_guid": "00cf6974-e66d-4bad-92df-f7911731ffca"
+      },
+      "issues": [
+        {
+          "code": "BIM_MISSING_LEVEL",
+          "severity": "warning",
+          "message": "BIM element has no assigned level."
+        },
+        {
+          "code": "BIM_MISSING_MATERIAL",
+          "severity": "info",
+          "message": "BIM element has no assigned material."
+        },
+        {
+          "code": "BIM_MISSING_REQUIRED_PROPERTY",
+          "severity": "warning",
+          "message": "Missing required BIM property: level"
+        },
+        {
+          "code": "GIS_BBOX_OVERLAP",
+          "severity": "warning",
+          "message": "Polygon bounding box overlaps another polygon. Review exact topology in GIS."
+        },
+        {
+          "code": "OPENBIM_GUID_ASSIGNED",
+          "severity": "info",
+          "message": "IFC GUID was missing; ADF entity id was used as fallback."
+        },
+        {
+          "code": "OPENBIM_MISSING_SPATIAL_CONTAINER",
+          "severity": "warning",
+          "message": "OpenBIM entity has no spatial container or level assignment."
+        },
+        {
+          "code": "OPENBIM_MISSING_PSET_PROPERTY",
+          "severity": "warning",
+          "message": "Missing OpenBIM property set value: level"
+        },
+        {
+          "code": "OPENBIM_MISSING_PSET_PROPERTY",
+          "severity": "warning",
+          "message": "Missing OpenBIM property set value: material"
+        }
+      ]
+    },
+    {
+      "id": "f04eeb44-ef01-44d7-a2fc-d3ab1e70f54a",
+      "source": "DXF",
+      "handle": "101",
+      "entity_type": "LWPOLYLINE",
+      "layer": "A-ROOM",
+      "category": "Room",
+      "bim_class": "IfcSpace",
+      "geometry": {
+        "type": "polyline",
+        "points": [
+          [
+            500.0,
+            500.0,
+            0.0
+          ],
+          [
+            9500.0,
+            500.0,
+            0.0
+          ],
+          [
+            9500.0,
+            7500.0,
+            0.0
+          ],
+          [
+            500.0,
+            7500.0,
+            0.0
+          ]
+        ],
+        "closed": true,
+        "raw": {}
+      },
+      "text": null,
+      "properties": {
+        "area": 63000000.0,
+        "perimeter": 32000.0,
+        "bim_category": "Room",
+        "ifc_class": "IfcSpace",
+        "level": "UNASSIGNED",
+        "material": null,
+        "ifc_guid": "f04eeb44-ef01-44d7-a2fc-d3ab1e70f54a"
+      },
+      "issues": [
+        {
+          "code": "BIM_MISSING_LEVEL",
+          "severity": "warning",
+          "message": "BIM element has no assigned level."
+        },
+        {
+          "code": "BIM_MISSING_REQUIRED_PROPERTY",
+          "severity": "warning",
+          "message": "Missing required BIM property: level"
+        },
+        {
+          "code": "GIS_BBOX_OVERLAP",
+          "severity": "warning",
+          "message": "Polygon bounding box overlaps another polygon. Review exact topology in GIS."
+        },
+        {
+          "code": "OPENBIM_GUID_ASSIGNED",
+          "severity": "info",
+          "message": "IFC GUID was missing; ADF entity id was used as fallback."
+        },
+        {
+          "code": "OPENBIM_MISSING_SPATIAL_CONTAINER",
+          "severity": "warning",
+          "message": "OpenBIM entity has no spatial container or level assignment."
+        },
+        {
+          "code": "OPENBIM_MISSING_PSET_PROPERTY",
+          "severity": "warning",
+          "message": "Missing OpenBIM property set value: level"
+        }
+      ]
+    },
+    {
+      "id": "473b6ea9-f366-4168-b3ad-69726c38f64f",
+      "source": "DXF",
+      "handle": "102",
+      "entity_type": "INSERT",
+      "layer": "A-DOOR",
+      "category": "Door",
+      "bim_class": "IfcDoor",
+      "geometry": {
+        "type": "block_insert",
+        "points": [
+          [
+            3000.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "closed": false,
+        "raw": {
+          "block_name": "DOOR_900"
+        }
+      },
+      "text": null,
+      "properties": {
+        "block_name": "DOOR_900",
+        "bim_category": "Door",
+        "ifc_class": "IfcDoor",
+        "level": "UNASSIGNED",
+        "material": null,
+        "ifc_guid": "473b6ea9-f366-4168-b3ad-69726c38f64f"
+      },
+      "issues": [
+        {
+          "code": "NON_STANDARD_BLOCK",
+          "severity": "warning",
+          "message": "Block 'DOOR_900' is not defined in the active standard."
+        },
+        {
+          "code": "BIM_MISSING_LEVEL",
+          "severity": "warning",
+          "message": "BIM element has no assigned level."
+        },
+        {
+          "code": "BIM_MISSING_MATERIAL",
+          "severity": "info",
+          "message": "BIM element has no assigned material."
+        },
+        {
+          "code": "BIM_MISSING_REQUIRED_PROPERTY",
+          "severity": "warning",
+          "message": "Missing required BIM property: level"
+        },
+        {
+          "code": "OPENBIM_GUID_ASSIGNED",
+          "severity": "info",
+          "message": "IFC GUID was missing; ADF entity id was used as fallback."
+        },
+        {
+          "code": "OPENBIM_MISSING_SPATIAL_CONTAINER",
+          "severity": "warning",
+          "message": "OpenBIM entity has no spatial container or level assignment."
+        },
+        {
+          "code": "OPENBIM_MISSING_PSET_PROPERTY",
+          "severity": "warning",
+          "message": "Missing OpenBIM property set value: level"
+        },
+        {
+          "code": "OPENBIM_MISSING_PSET_PROPERTY",
+          "severity": "warning",
+          "message": "Missing OpenBIM property set value: material"
+        }
+      ]
+    },
+    {
+      "id": "0d4ca13a-154e-4a7a-a82d-a7e52394ce15",
+      "source": "DXF",
+      "handle": "103",
+      "entity_type": "TEXT",
+      "layer": "A-TEXT",
+      "category": "Text",
+      "bim_class": "IfcAnnotation",
+      "geometry": {
+        "type": "point",
+        "points": [
+          [
+            1000.0,
+            1000.0,
+            0.0
+          ]
+        ],
+        "closed": false,
+        "raw": {}
+      },
+      "text": "Living Room",
+      "properties": {
+        "bim_category": "Text",
+        "ifc_class": "IfcAnnotation",
+        "level": "UNASSIGNED",
+        "material": null,
+        "ifc_guid": "0d4ca13a-154e-4a7a-a82d-a7e52394ce15"
+      },
+      "issues": [
+        {
+          "code": "OPENBIM_GUID_ASSIGNED",
+          "severity": "info",
+          "message": "IFC GUID was missing; ADF entity id was used as fallback."
+        },
+        {
+          "code": "OPENBIM_MISSING_SPATIAL_CONTAINER",
+          "severity": "warning",
+          "message": "OpenBIM entity has no spatial container or level assignment."
+        }
+      ]
+    },
+    {
+      "id": "e603cd90-2fd6-48d9-818e-20b6cf6bdabe",
+      "source": "DXF",
+      "handle": "104",
+      "entity_type": "LINE",
+      "layer": "BAD-LAYER",
+      "category": "Unknown",
+      "bim_class": null,
+      "geometry": {
+        "type": "line",
+        "points": [
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "closed": false,
+        "raw": {}
+      },
+      "text": null,
+      "properties": {},
+      "issues": [
+        {
+          "code": "UNKNOWN_LAYER",
+          "severity": "warning",
+          "message": "Layer 'BAD-LAYER' is not defined in the active standard."
+        },
+        {
+          "code": "UNKNOWN_CATEGORY",
+          "severity": "warning",
+          "message": "Entity could not be classified into an architectural/BIM category."
+        },
+        {
+          "code": "ZERO_LENGTH",
+          "severity": "error",
+          "message": "Geometry length is zero or almost zero."
+        },
+        {
+          "code": "BIM_UNMAPPED_ENTITY",
+          "severity": "warning",
+          "message": "Entity could not be mapped to a BIM/IFC class."
+        }
+      ]
+    }
+  ]
+}

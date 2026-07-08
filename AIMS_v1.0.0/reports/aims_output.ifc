@@ -1,0 +1,14 @@
+ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION(('AIMS v0.8.0 OpenBIM foundation export'),'2;1');
+FILE_NAME('AIMS Sample OpenBIM Project.ifc','',('AIMS'),('AIMS'),'AIMS','AIMS','');
+FILE_SCHEMA(('IFC4'));
+ENDSEC;
+DATA;
+#1=IFCPROJECT('AIMS-SAMPLE-PROJECT-GUID',$,'AIMS Sample OpenBIM Project',$,$,$,$,$);
+#10=IfcWall('00cf6974-e66d-4bad-92df-f7911731ffca',#1,'Wall','Layer=A-WALL;Category=Wall;Level=UNASSIGNED;Material=UNASSIGNED;Points=[(0.000000,0.000000), (10000.000000,0.000000), (10000.000000,8000.000000), (0.000000,8000.000000)]',$,$,$);
+#11=IfcSpace('f04eeb44-ef01-44d7-a2fc-d3ab1e70f54a',#1,'Room','Layer=A-ROOM;Category=Room;Level=UNASSIGNED;Material=UNASSIGNED;Points=[(500.000000,500.000000), (9500.000000,500.000000), (9500.000000,7500.000000), (500.000000,7500.000000)]',$,$,$);
+#12=IfcDoor('473b6ea9-f366-4168-b3ad-69726c38f64f',#1,'Door','Layer=A-DOOR;Category=Door;Level=UNASSIGNED;Material=UNASSIGNED;Points=[(3000.000000,0.000000)]',$,$,$);
+#13=IfcAnnotation('0d4ca13a-154e-4a7a-a82d-a7e52394ce15',#1,'Text','Layer=A-TEXT;Category=Text;Level=UNASSIGNED;Material=UNASSIGNED;Points=[(1000.000000,1000.000000)]',$,$,$);
+ENDSEC;
+END-ISO-10303-21;

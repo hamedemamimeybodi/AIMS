@@ -1,0 +1,48 @@
+name: AIMS CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest
+
+      - name: Run tests
+        run: pytest -q
+
+      - name: Run smoke audit
+        run: |
+          python -m aims.cli validate
+          python -m aims.cli audit examples/simple_site.dxf \
+            --sqlite reports/ci_output.sqlite \
+            --geojson reports/ci_output.geojson \
+            --ifc reports/ci_output.ifc \
+            --out reports/ci_report.md \
+            --html reports/ci_report.html \
+            --json-report reports/ci_report.json
+
+      - name: Upload reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: aims-ci-reports-${{ matrix.python-version }}
+          path: reports/

@@ -1,0 +1,169 @@
+from __future__ import annotations
+
+import argparse
+from pathlib import Path
+from typing import Any, Dict
+
+import yaml
+from rich.console import Console
+
+from packages.aims_automation.healthcheck import check_project_health
+from packages.aims_automation.release_manifest import write_release_manifest
+from packages.aims_automation.release_check import run_release_gate
+
+console = Console()
+
+
+def load_yaml(path: str | Path | None) -> Dict[str, Any]:
+    if not path:
+        return {}
+    p = Path(path)
+    if not p.exists():
+        raise FileNotFoundError(f"Standard file not found: {p}")
+    with p.open("r", encoding="utf-8") as f:
+        return yaml.safe_load(f) or {}
+
+
+def audit_command(args: argparse.Namespace) -> int:
+    from packages.aims_bim.bim_mapping import apply_bim_mapping
+    from packages.aims_bim.readiness import compute_bim_readiness
+    from packages.aims_database.sqlite_store import write_sqlite
+    from packages.aims_geometry.validation import validate_document
+    from packages.aims_gis.geojson_export import write_geojson
+    from packages.aims_gis.readiness import compute_gis_readiness
+    from packages.aims_parser.dxf_parser import parse_dxf
+    from packages.aims_report.markdown_report import write_markdown_report
+    from packages.aims_report.html_report import write_html_report
+    from packages.aims_report.json_report import write_json_report
+    from packages.aims_rules.engine import apply_rule_engine
+    from packages.aims_plugins.loader import run_plugins
+    from packages.aims_openbim.openbim_validation import validate_openbim
+    from packages.aims_openbim.ifc_export import write_ifc
+
+    standard = load_yaml(args.standard)
+    bim_standard = load_yaml(args.bim_standard)
+    gis_standard = load_yaml(args.gis_standard)
+    rules_standard = load_yaml(args.rules_standard)
+    plugin_standard = load_yaml(args.plugins_standard)
+    openbim_standard = load_yaml(args.openbim_standard)
+    merged_standard = {**standard, **bim_standard, **gis_standard, **rules_standard, **plugin_standard, **openbim_standard}
+    document = parse_dxf(args.input, standard=standard)
+    validate_document(document, standard=standard)
+    mapping = apply_bim_mapping(document, standard=merged_standard)
+    bim = compute_bim_readiness(document, standard=merged_standard)
+    gis = compute_gis_readiness(document, standard=merged_standard)
+    rules = apply_rule_engine(document, standard=rules_standard)
+    plugins = run_plugins(document, config=plugin_standard)
+    openbim = validate_openbim(document, standard=merged_standard)
+
+    sqlite_path = Path(args.sqlite)
+    report_path = Path(args.out)
+    html_path = Path(args.html)
+    json_report_path = Path(args.json_report)
+    geojson_path = Path(args.geojson)
+    ifc_path = Path(args.ifc)
+
+    write_sqlite(document, sqlite_path)
+    write_geojson(document, geojson_path)
+    ifc_export = write_ifc(document, ifc_path, standard=merged_standard)
+    write_markdown_report(document, report_path, bim_readiness=bim, gis_readiness=gis, rule_result=rules, plugin_summary=plugins, openbim_validation=openbim)
+    write_html_report(document, html_path, bim_readiness=bim, gis_readiness=gis, rule_result=rules, plugin_summary=plugins, openbim_validation=openbim)
+    write_json_report(document, json_report_path, bim_readiness=bim, gis_readiness=gis, rule_result=rules, plugin_summary=plugins, openbim_validation=openbim)
+
+    console.print("[bold green]AIMS audit completed[/bold green]")
+    console.print(f"Entities: {len(document.entities)}")
+    console.print(f"Issues: {document.issue_count()}")
+    console.print(f"BIM mapped: {mapping.mapped_entities}/{mapping.total_entities}")
+    console.print(f"BIM readiness: {bim.score}/100")
+    console.print(f"GIS readiness: {gis.score}/100")
+    console.print(f"Rule engine: {rules.score}/100 ({rules.failed} failed)")
+    console.print(f"Plugins: {plugins.score}/100 ({plugins.executed_plugins} executed, {plugins.total_issues} issues)")
+    console.print(f"OpenBIM readiness: {openbim.score}/100")
+    console.print(f"IFC export: {ifc_export.exportable_entities}/{ifc_export.total_entities} exportable")
+    console.print(f"SQLite: {sqlite_path}")
+    console.print(f"GeoJSON: {geojson_path}")
+    console.print(f"IFC: {ifc_path}")
+    console.print(f"Markdown report: {report_path}")
+    console.print(f"HTML report: {html_path}")
+    console.print(f"JSON report: {json_report_path}")
+    return 0
+
+
+def validate_command(args: argparse.Namespace) -> int:
+    health = check_project_health(args.root)
+    manifest = write_release_manifest(args.root, out=args.manifest, version=args.version)
+    if health.ok:
+        console.print("[bold green]AIMS project validation passed[/bold green]")
+    else:
+        console.print("[bold red]AIMS project validation failed[/bold red]")
+    console.print(f"Root: {health.root}")
+    console.print(f"Health score: {health.score}/100")
+    console.print(f"Checked paths: {health.checked_paths}")
+    console.print(f"Missing paths: {len(health.missing_paths)}")
+    for item in health.missing_paths:
+        console.print(f"  - missing: {item}")
+    for item in health.warnings:
+        console.print(f"  - warning: {item}")
+    console.print(f"Release manifest: {args.manifest}")
+    console.print(f"Manifest files: {manifest.file_count}")
+    return 0 if health.ok else 2
+
+
+def release_check_command(args: argparse.Namespace) -> int:
+    gate = run_release_gate(args.root, version=args.version)
+    if gate.passed:
+        console.print("[bold green]AIMS release gate passed[/bold green]")
+    else:
+        console.print("[bold red]AIMS release gate failed[/bold red]")
+    console.print(f"Version: {gate.version}")
+    console.print(f"Score: {gate.score}/100")
+    for item in gate.checks:
+        console.print(f"  - check: {item}")
+    for item in gate.warnings:
+        console.print(f"  - warning: {item}")
+    for item in gate.failures:
+        console.print(f"  - failure: {item}")
+    return 0 if gate.passed else 2
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(prog="aims", description="AIMS CAD/BIM preflight toolkit")
+    sub = parser.add_subparsers(dest="command", required=True)
+
+    audit = sub.add_parser("audit", help="Audit a DXF file and generate SQLite, GeoJSON, Markdown, HTML, and JSON reports")
+    audit.add_argument("input", help="Input DXF file")
+    audit.add_argument("--standard", default="standards/architectural_layers.yaml", help="YAML layer/classification standard")
+    audit.add_argument("--bim-standard", default="standards/bim/ifc_mapping.yaml", help="YAML BIM/IFC mapping standard")
+    audit.add_argument("--gis-standard", default="standards/gis/gis_readiness.yaml", help="YAML GIS readiness standard")
+    audit.add_argument("--rules-standard", default="standards/rules/architectural_qaqc.yaml", help="YAML rule engine standard")
+    audit.add_argument("--plugins-standard", default="standards/plugins/plugin_manifest.yaml", help="YAML plugin manifest")
+    audit.add_argument("--openbim-standard", default="standards/openbim/openbim.yaml", help="YAML OpenBIM/IFC standard")
+    audit.add_argument("--sqlite", default="reports/aims_output.sqlite", help="Output SQLite database path")
+    audit.add_argument("--geojson", default="reports/aims_output.geojson", help="Output GeoJSON path")
+    audit.add_argument("--ifc", default="reports/aims_output.ifc", help="Output IFC/STEP path")
+    audit.add_argument("--out", default="reports/aims_report.md", help="Output Markdown report path")
+    audit.add_argument("--html", default="reports/aims_report.html", help="Output HTML report path")
+    audit.add_argument("--json-report", default="reports/aims_report.json", help="Output machine-readable JSON report path")
+    audit.set_defaults(func=audit_command)
+
+    validate = sub.add_parser("validate", help="Validate the AIMS project layout and write a release manifest")
+    validate.add_argument("--root", default=".", help="Project root to validate")
+    validate.add_argument("--manifest", default="reports/release_manifest.json", help="Output release manifest path")
+    validate.add_argument("--version", default="1.0.0", help="Version value written to the release manifest")
+    validate.set_defaults(func=validate_command)
+
+    release_check = sub.add_parser("release-check", help="Run the v1.0 release readiness gate")
+    release_check.add_argument("--root", default=".", help="Project root to validate")
+    release_check.add_argument("--version", default="1.0.0", help="Expected release version")
+    release_check.set_defaults(func=release_check_command)
+    return parser
+
+
+def main() -> int:
+    parser = build_parser()
+    args = parser.parse_args()
+    return args.func(args)
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

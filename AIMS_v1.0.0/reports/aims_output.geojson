@@ -1,0 +1,181 @@
+{
+  "type": "FeatureCollection",
+  "name": "simple_site",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              0.0,
+              0.0
+            ],
+            [
+              10000.0,
+              0.0
+            ],
+            [
+              10000.0,
+              8000.0
+            ],
+            [
+              0.0,
+              8000.0
+            ],
+            [
+              0.0,
+              0.0
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "00cf6974-e66d-4bad-92df-f7911731ffca",
+        "source": "DXF",
+        "handle": "100",
+        "entity_type": "LWPOLYLINE",
+        "layer": "A-WALL",
+        "category": "Wall",
+        "bim_class": "IfcWall",
+        "text": null,
+        "bim_category": "Wall",
+        "ifc_class": "IfcWall",
+        "level": "UNASSIGNED",
+        "material": null,
+        "ifc_guid": "00cf6974-e66d-4bad-92df-f7911731ffca",
+        "issue_codes": [
+          "BIM_MISSING_LEVEL",
+          "BIM_MISSING_MATERIAL",
+          "BIM_MISSING_REQUIRED_PROPERTY",
+          "GIS_BBOX_OVERLAP",
+          "OPENBIM_GUID_ASSIGNED",
+          "OPENBIM_MISSING_SPATIAL_CONTAINER",
+          "OPENBIM_MISSING_PSET_PROPERTY",
+          "OPENBIM_MISSING_PSET_PROPERTY"
+        ],
+        "issue_count": 8
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              500.0,
+              500.0
+            ],
+            [
+              9500.0,
+              500.0
+            ],
+            [
+              9500.0,
+              7500.0
+            ],
+            [
+              500.0,
+              7500.0
+            ],
+            [
+              500.0,
+              500.0
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "f04eeb44-ef01-44d7-a2fc-d3ab1e70f54a",
+        "source": "DXF",
+        "handle": "101",
+        "entity_type": "LWPOLYLINE",
+        "layer": "A-ROOM",
+        "category": "Room",
+        "bim_class": "IfcSpace",
+        "text": null,
+        "area": 63000000.0,
+        "perimeter": 32000.0,
+        "bim_category": "Room",
+        "ifc_class": "IfcSpace",
+        "level": "UNASSIGNED",
+        "material": null,
+        "ifc_guid": "f04eeb44-ef01-44d7-a2fc-d3ab1e70f54a",
+        "issue_codes": [
+          "BIM_MISSING_LEVEL",
+          "BIM_MISSING_REQUIRED_PROPERTY",
+          "GIS_BBOX_OVERLAP",
+          "OPENBIM_GUID_ASSIGNED",
+          "OPENBIM_MISSING_SPATIAL_CONTAINER",
+          "OPENBIM_MISSING_PSET_PROPERTY"
+        ],
+        "issue_count": 6
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1000.0,
+          1000.0
+        ]
+      },
+      "properties": {
+        "id": "0d4ca13a-154e-4a7a-a82d-a7e52394ce15",
+        "source": "DXF",
+        "handle": "103",
+        "entity_type": "TEXT",
+        "layer": "A-TEXT",
+        "category": "Text",
+        "bim_class": "IfcAnnotation",
+        "text": "Living Room",
+        "bim_category": "Text",
+        "ifc_class": "IfcAnnotation",
+        "level": "UNASSIGNED",
+        "material": null,
+        "ifc_guid": "0d4ca13a-154e-4a7a-a82d-a7e52394ce15",
+        "issue_codes": [
+          "OPENBIM_GUID_ASSIGNED",
+          "OPENBIM_MISSING_SPATIAL_CONTAINER"
+        ],
+        "issue_count": 2
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ]
+        ]
+      },
+      "properties": {
+        "id": "e603cd90-2fd6-48d9-818e-20b6cf6bdabe",
+        "source": "DXF",
+        "handle": "104",
+        "entity_type": "LINE",
+        "layer": "BAD-LAYER",
+        "category": "Unknown",
+        "bim_class": null,
+        "text": null,
+        "issue_codes": [
+          "UNKNOWN_LAYER",
+          "UNKNOWN_CATEGORY",
+          "ZERO_LENGTH",
+          "BIM_UNMAPPED_ENTITY"
+        ],
+        "issue_count": 4
+      }
+    }
+  ]
+}
