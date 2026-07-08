@@ -1,117 +1,75 @@
-# AIMS v0.2.0
+# AIMS - Architectural Intelligence Mapping System
 
-**Architectural Intelligence Mapping System** is a local CAD/BIM preflight toolkit for converting DXF drawings into an intermediate **ADF** model, saving results to SQLite, validating architectural quality, and generating Markdown QA/QC reports.
+`v1.0.0 - Professional Release Candidate`
 
-This release focuses on **Architectural QA/QC**. It is intentionally small and practical: DXF in, ADF normalized entities, SQLite storage, validation warnings, and a readable report. No mystical BIM promises, because those usually end with a meeting and no model.
+AIMS is a CAD/BIM/GIS QA/QC toolkit for converting architectural DXF content into ADF, validating it, storing it in SQLite, exporting GeoJSON and IFC-like STEP text, and producing Markdown/HTML/JSON reports.
 
-## What v0.2.0 Adds
-
-- Architectural metrics engine
-- Quality score calculation
-- Layer, block, geometry, and category validation
-- Duplicate geometry detection
-- Room area/perimeter calculation for closed room polylines
-- Door/window block-preference warning
-- Richer Markdown report with BIM readiness snapshot
-- Basic BIM preflight YAML standard
-
-## Project Structure
+## Pipeline
 
 ```text
-AIMS/
-├── aims/
-│   ├── __init__.py
-│   └── cli.py
-├── packages/
-│   ├── aims_architecture/
-│   ├── aims_core/
-│   ├── aims_database/
-│   ├── aims_geometry/
-│   ├── aims_parser/
-│   ├── aims_report/
-│   └── aims_rules/
-├── standards/
-│   ├── architectural_layers.yaml
-│   └── architecture/basic_bim_preflight.yaml
-├── examples/
-├── tests/
-├── reports/
-├── CHANGELOG.md
-├── README.md
-├── requirements.txt
-└── pyproject.toml
+DXF
+  ↓
+DXF Parser
+  ↓
+ADF Normalizer
+  ↓
+Classification
+  ↓
+Geometry / Architecture / BIM / GIS / Rule / Plugin Validation
+  ↓
+OpenBIM Validation
+  ↓
+SQLite + GeoJSON + IFC + Markdown + HTML + JSON
+  ↓
+Release Health / CI / Manifest
 ```
 
 ## Install
 
 ```bash
 python -m venv .venv
-source .venv/bin/activate
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install -e .[dev]
 ```
 
-On Windows PowerShell:
-
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install -e .[dev]
-```
-
-## Run Audit
+## Run audit
 
 ```bash
-aims audit examples/simple_site.dxf --standard standards/architectural_layers.yaml --sqlite reports/aims_output.sqlite --out reports/aims_report.md
+python -m aims.cli audit examples/simple_site.dxf \
+  --standard standards/architectural_layers.yaml \
+  --bim-standard standards/bim/ifc_mapping.yaml \
+  --gis-standard standards/gis/gis_readiness.yaml \
+  --rules-standard standards/rules/architectural_qaqc.yaml \
+  --plugins-standard standards/plugins/plugin_manifest.yaml \
+  --openbim-standard standards/openbim/openbim.yaml \
+  --sqlite reports/aims_output.sqlite \
+  --geojson reports/aims_output.geojson \
+  --ifc reports/aims_output.ifc \
+  --out reports/aims_report.md \
+  --html reports/aims_report.html \
+  --json-report reports/aims_report.json
 ```
 
-Expected outputs:
-
-```text
-reports/aims_output.sqlite
-reports/aims_report.md
-```
-
-## Validation Scope
-
-v0.2.0 checks:
-
-- Unknown layers
-- Unknown architectural categories
-- Non-standard block names
-- Duplicate geometry signatures
-- Zero-length lines
-- Invalid polylines
-- Open wall/room boundaries
-- Small room boundaries
-- Door/window entities that should preferably be standard blocks
-
-## ADF Concept
-
-ADF is the neutral internal format. Parsers should produce ADF; validators, reports, SQLite, BIM mapping, and future exporters should consume ADF.
-
-```text
-DXF/DWG/IFC/DGN/etc.
-        ↓
-      Parser
-        ↓
-       ADF
-   ┌────┼────┬──────┬──────┐
- SQLite QA/QC Report BIM GIS
-```
-
-## Manual Push
-
-After unzipping inside the repository root:
+## Validate release
 
 ```bash
-git add .
-git commit -m "feat: add AIMS v0.2.0 architectural QA QC"
-git push origin main
+python -m aims.cli validate --version 1.0.0
+python -m aims.cli release-check --version 1.0.0
+pytest
 ```
 
-## Roadmap
+## v1.0.0 additions
 
-- v0.3.0: BIM mapping engine and IFC-class readiness rules
-- v0.4.0: GIS/GeoJSON/GeoPackage export
-- v0.5.0: YAML rule engine expansion
-- v1.0.0: Professional CAD/BIM QA suite
+- release gate command
+- stricter project health validation
+- release checklist and installation guide
+- GitHub Actions CI workflow
+- release candidate documentation
+- version normalization across CLI, package, and pyproject
+- package cleaned from transient cache files
+- lightweight DXF fallback parser for demo/smoke use when `ezdxf` is unavailable
+- sample expected outputs under `samples/expected_outputs/`
+
+## Important limitation
+
+The `.ifc` output is an early OpenBIM foundation export. It is deterministic and useful for pipeline tests, but not a full geometry-rich IFC authoring engine. For production IFC authoring, integrate IfcOpenShell later. Pretending a tiny exporter is a full BIM engine would be software theater, and this project is already ambitious enough.

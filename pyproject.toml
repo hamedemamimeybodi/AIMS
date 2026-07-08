@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "aims"
-version = "0.2.0"
-description = "AIMS Architectural QA/QC: DXF to ADF, SQLite and BIM-readiness reports"
+version = "1.0.0"
+description = "AIMS Professional CAD/BIM/GIS QA/QC release candidate"
 readme = "README.md"
 requires-python = ">=3.11"
 authors = [{ name = "hamedemamimeybodi" }]
